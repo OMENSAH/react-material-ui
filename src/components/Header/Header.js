@@ -78,7 +78,9 @@ class MenuAppBar extends React.Component {
                   onClose={this.handleClose}
                 >
                   <MenuItem>My account</MenuItem>
-                  <MenuItem>Dashboard</MenuItem>
+                  <MenuItem>
+                    <NavLink to="/dashboard">Dashboard</NavLink>
+                  </MenuItem>
                   <MenuItem onClick={auth.logout}>Logout</MenuItem>
                 </Menu>
               </div>
