@@ -1,28 +1,36 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import {BrowserRouter, Route} from 'react-router-dom'
+
+import MenuAppBar from './components/Header/Header';
+import Auth from "./service/Auth";
+
+
+import HomePage from './pages/HomePage/HomePage'
+import Callback from './components/Callback'
+// import Dashboard from  './pages/Dashboard/Dashboard'
+
+
+// const {Content } = Layout;
+const auth = new Auth();
 
 class App extends Component {
+  componentWillUnmount(){
+    if(localStorage.getItem("isLoggedIn") === true) auth.renewSession()
+  }
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <BrowserRouter>
+        <React.Fragment>
+          <MenuAppBar auth={auth}/>
+          <Route path="/" exact  component={() => <HomePage auth={auth}/>} />
+          <Route path="/callback" exact component={() =>< Callback auth={auth} />} />
+          {/* <Route path="/dashboard" exact component={() => <Dashboard auth={auth}/>} /> */}
+        </React.Fragment>
+      </BrowserRouter>
     );
   }
 }
 
 export default App;
+
