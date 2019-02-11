@@ -49,7 +49,7 @@ class MenuAppBar extends React.Component {
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" color="inherit" className={classes.grow}>
-              <NavLink to="/">
+              <NavLink to="/" style={{ textDecoration: 'none', color: 'white' }}>
                   Home
               </NavLink>
             </Typography>
@@ -77,9 +77,15 @@ class MenuAppBar extends React.Component {
                   open={open}
                   onClose={this.handleClose}
                 >
-                  <MenuItem>My account</MenuItem>
                   <MenuItem>
-                    <NavLink to="/dashboard">Dashboard</NavLink>
+                    <NavLink to="/account" style={{ textDecoration: 'none', color: 'black' }}>
+                      My Account
+                    </NavLink>
+                  </MenuItem>
+                  <MenuItem >
+                    <NavLink to="/dashboard" style={{ textDecoration: 'none', color: 'black' }}>
+                      Dashboard
+                    </NavLink>
                   </MenuItem>
                   <MenuItem onClick={auth.logout}>Logout</MenuItem>
                 </Menu>

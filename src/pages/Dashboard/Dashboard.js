@@ -8,7 +8,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
+import AddCircleOutline from '@material-ui/icons/AddCircleOutline';
 import SendIcon from '@material-ui/icons/Send';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -22,6 +22,10 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import Typography from '@material-ui/core/Typography'
+import Snackbar from '@material-ui/core/Snackbar'
+import MySnackbarContentWrapper from '../../components/Snackbar/Snackbar'
+
 
 
 import BarChart from '../../components/Chart/Chart'
@@ -35,9 +39,6 @@ const styles = theme => ({
     padding: theme.spacing.unit * 2,
     textAlign: 'center',
     color: theme.palette.text.secondary,
-  },
-  row:{
-    marginTop: '20px'
   }
 });
 
@@ -59,14 +60,25 @@ const totalParticipants = [159, 220, 84, 42]
 
 class Dashboard extends React.Component {
     state ={
-      open: false
+      openDialog: false,
+      showSnackbar: false,
+      cancelled: false
     }
-    handleClickOpen = () => {
-      this.setState({ open: true });
+    
+    handleClickOpenDialog = () => {
+      this.setState({ openDialog: true });
     };
   
-    handleClose = () => {
-      this.setState({ open: false });
+    handleSendMessage = () => {
+      this.setState({ openDialog: false, showSnackbar: true,cancelled:false})
+    };
+
+    handleCancelMesage = () => {
+      this.setState({ openDialog: false, showSnackbar: true, cancelled:true});
+    }
+  
+    handleCloseSnackbar = () => {
+      this.setState({ showSnackbar: false})
     };
     render(){
         const {classes, auth} = this.props
@@ -99,13 +111,12 @@ class Dashboard extends React.Component {
         </Table>
       )
         const sendMessage = (
-
           <Dialog
-            open={this.state.open}
-            onClose={this.handleClose}
+            open={this.state.openDialog}
+            onClose={this.handleCloseDialog}
             aria-labelledby="form-dialog-title"
           >
-            <DialogTitle id="form-dialog-title">Send A Reminder</DialogTitle>
+            <DialogTitle id="form-dialog-title">Participant Reminder</DialogTitle>
             <DialogContent>
               <DialogContentText>
                 To Remind participant about an event, please enter client's and event information. We will send
@@ -138,32 +149,66 @@ class Dashboard extends React.Component {
               
             </DialogContent>
             <DialogActions>
-              <Button onClick={this.handleClose} color="primary">
+              <Button onClick={this.handleCancelMesage} color="secondary">
                 Cancel
               </Button>
-              <Button onClick={this.handleClose} color="primary">
+              <Button onClick={this.handleSendMessage} color="primary">
                 Send
               </Button>
             </DialogActions>
           </Dialog>
         )
+        const snackbarContent = !this.state.cancelled
+        ?(
+          <Snackbar
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left',
+              }}      
+              open={this.state.showSnackbar}
+              autoHideDuration={6000}
+              onClose={this.handleCloseSnackbar}
+            >
+              <MySnackbarContentWrapper
+                onClose={this.handleCloseSnackbar}
+                variant="success"
+                message="Participant witll be messaged soon"
+              />
+          </Snackbar> 
+        ):
+        (
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}      
+          open={this.state.showSnackbar}
+          autoHideDuration={6000}
+          onClose={this.handleCloseSnackbar}
+        >
+          <MySnackbarContentWrapper
+            onClose={this.handleCloseSnackbar}
+            variant="error"
+            message="Sending message got cancelled "
+          />
+        </Snackbar> 
+        )
         return (
-          
             <div className={classes.root}>
                 <br/> <br/> <br/> <br/>
               <Grid container spacing={24}>
                 <Grid item xs={3}>
                   <Paper className={classes.paper} elevation={1}>
                     <MenuList>
-                        <MenuItem className={classes.menuItem} onClick={this.handleClickOpen}>
+                        <MenuItem className={classes.menuItem} onClick={this.handleClickOpenDialog}>
                           <ListItemIcon className={classes.icon}>
                               <SendIcon />
                           </ListItemIcon>
-                          <ListItemText classes={{ primary: classes.primary }} inset primary="Sent Message" />
+                          <ListItemText classes={{ primary: classes.primary }} inset primary="Sent A Reminder" />
                         </MenuItem>
                         <MenuItem className={classes.menuItem}>
                         <ListItemIcon className={classes.icon}>
-                            <DraftsIcon />
+                            < AddCircleOutline/>
                         </ListItemIcon>
                         <ListItemText classes={{ primary: classes.primary }} inset primary="Drafts" />
                         </MenuItem>
@@ -180,7 +225,11 @@ class Dashboard extends React.Component {
                   <Paper className={classes.paper}>
                     {sendMessage}
                     {events}
-                    <BarChart className={classes.marginTop} totalParticipants={totalParticipants}/>
+                    <Typography variant="h5" gutterBottom={true} >
+                       Graphical Representation of Event's Participants
+                    </Typography>
+                    {snackbarContent }   
+                    <BarChart totalParticipants={totalParticipants}/>             
                   </Paper>
                 </Grid>
               </Grid>

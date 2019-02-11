@@ -13,7 +13,6 @@ class BarChart extends React.Component {
   }
 
   static defaultProps = {
-    marginTop: 20,
     height: 500,
     width: 500,
     chartBg:'#f4f4f4',
@@ -60,7 +59,6 @@ class BarChart extends React.Component {
       .attr('width',this.props.width)
       .attr('height', this.props.height)
       .style('background',this.props.chartBg)
-      .style('marginTop',this.props.marginTop)
       .selectAll('rect')
       .data(this.state.data)
       .enter().append('rect')
