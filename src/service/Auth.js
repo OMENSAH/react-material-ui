@@ -1,9 +1,11 @@
 /* eslint no-restricted-globals:0 */
 import auth0 from 'auth0-js';
 import { AUTH_CONFIG } from './auth0-variables';
+import jwt_decode from 'jwt-decode'
 
 const LOGIN_SUCCESS_PAGE = "/dashboard"
 const LOGIN_FAILED_PAGE = "/"
+
 
 export default class Auth {
   auth0 = new auth0.WebAuth({
@@ -11,7 +13,7 @@ export default class Auth {
     clientID: AUTH_CONFIG.clientId,
     redirectUri: AUTH_CONFIG.callbackUrl,
     responseType: 'token id_token',
-    scope: 'openid'
+    scope: 'openid profile'
   });
 
   login = ()=> {
@@ -72,4 +74,31 @@ export default class Auth {
     let expiresAt = JSON.parse(localStorage.getItem("expiresAt"))
     return new Date().getTime() < expiresAt;
   }
+
+
+  // getProfile = (cb)=> {
+  //   let accessToken = localStorage.getItem("access_token")
+  //   if(accessToken){
+  //     this.auth0.client.userInfo(accessToken, (err, profile) => {
+  //       if (profile) {
+  //         return profile
+  //       }
+  //       cb(err, profile);
+  //     });
+  //   }
+  // }
+
+
+  getProfile = ()=> {
+    let idToken = localStorage.getItem("id_token")
+    if(idToken){
+      return jwt_decode(idToken)
+    }
+    return {}
+  }
+
+
+
+  
+  
 }
