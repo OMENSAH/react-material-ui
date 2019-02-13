@@ -7,9 +7,8 @@ class Callback extends React.Component{
     render(){
         return(
             <div>
-                    <br/><br/><br/><br/>
-                    <h1>Loading...</h1>
-
+                <br/><br/><br/><br/>
+                 <h1>Loading...</h1>
             </div>
 
         )

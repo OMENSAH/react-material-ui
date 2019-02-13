@@ -1,5 +1,4 @@
 import React from 'react'
-import MySnackbarContentWrapper from '../Snackbar/Snackbar'
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -9,31 +8,14 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 
 export default class Message extends React.Component{
-    state ={
-        open: this.props.opened
-    }
-    handleClickOpen = () => {
-        this.setState({ open: true });
-    };
-
-    handleClose = (message,type) => {
-
-        this.setState({ open: false }, ()=> 
-            <MySnackbarContentWrapper
-              variant={type?type:null}
-              className={this.props.classes.margin}
-              message={message?message:""}
-            />
-        );
-    };
     render(){
+      const {openDialog, onCloseDialog, handleCancelMesage, handleSendMessage} = this.props
         return (
-
-            <Dialog
-                open={this.state.open}
-                onClose={this.handleClose}
-                aria-labelledby="form-dialog-title"
-            >
+          <Dialog
+            open={openDialog}
+            onClose={onCloseDialog}
+            aria-labelledby="form-dialog-title"
+          >
             <DialogTitle id="form-dialog-title">Participant Reminder</DialogTitle>
             <DialogContent>
               <DialogContentText>
@@ -67,14 +49,14 @@ export default class Message extends React.Component{
               
             </DialogContent>
             <DialogActions>
-              <Button onClick={()=>this.handleClose("Closed", "error")} color="primary">
+              <Button color="secondary" onClick={handleCancelMesage}>
                 Cancel
               </Button>
-              <Button onClick={()=>this.handleClose("Saved", "success")} color="primary">
+              <Button color="primary" onClick={handleSendMessage}>
                 Send
               </Button>
             </DialogActions>
-          </Dialog>
+        </Dialog>
         )
     }
 }
