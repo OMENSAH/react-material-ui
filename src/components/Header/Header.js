@@ -52,13 +52,6 @@ const styles = theme => ({
         duration: theme.transitions.duration.enteringScreen,
       }),
     },
-    menuButton: {
-      marginLeft: 12,
-      marginRight: 20,
-    },
-    hide: {
-      display: 'none',
-    },
     drawer: {
       width: drawerWidth,
       flexShrink: 0,
@@ -146,7 +139,6 @@ class MenuAppBar extends React.Component {
                         <div>
                             <IconButton
                                 aria-owns={openDrawer ? 'menu-appbar' : undefined}
-                                aria-haspopup="true"
                                 onClick={this.handleMenu}
                                 color="inherit"
                             >
