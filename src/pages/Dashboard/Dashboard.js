@@ -91,7 +91,12 @@ class Dashboard extends React.Component {
      return (
             <div className={classes.root}>
                 <br/> <br/> <br/> <br/>
-              <Grid container>
+              <Grid
+                container
+                spacing={0}
+                align="center"
+                justify="center"
+              >
                   <Paper className={classes.paper}>
                     {events}
                     <Typography variant="h5" gutterBottom={true} >
