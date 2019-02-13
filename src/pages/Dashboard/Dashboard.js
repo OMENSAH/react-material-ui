@@ -24,26 +24,13 @@ const styles = theme => ({
   }
 });
 
-let id = 0;
-function createData(eventName, totalParticipants, numberOfMales, numberOfFemales) {
-  id += 1;
-  return { id, eventName, totalParticipants, numberOfMales, numberOfFemales};
-}
 
-const rows = [
-  createData('Developer Jobs 101', 159, 82, 68),
-  createData('Public Speaking for Developers', 220, 94, 126),
-  createData('React Workshop', 84, 59, 25),
-  createData('Campus Roadshow', 42, 30, 12),
-
-];
-const totalParticipants = [159, 220, 84, 42]
 
 
 class Dashboard extends React.Component {
     state ={
       showSnackbar: false,
-      cancelled: false
+      cancelled: false,
     }
     
   
@@ -59,7 +46,7 @@ class Dashboard extends React.Component {
       this.setState({ showSnackbar: false})
     };
     render(){
-        const {classes, auth} = this.props
+        const {classes, auth, data} = this.props
         if(!auth.isAuthenticated()){
             alert("You must be Authenticated")
             return <Redirect to="/"/>
@@ -75,7 +62,7 @@ class Dashboard extends React.Component {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map(row => (
+            {data.map(row => (
               <TableRow key={row.id}>
                 <TableCell component="th" scope="row">
                   {row.eventName}
@@ -102,7 +89,7 @@ class Dashboard extends React.Component {
                     <Typography variant="h5" gutterBottom={true} >
                        Graphical Representation of Event's Participants
                     </Typography> 
-                    <BarChart totalParticipants={totalParticipants}/>             
+                    <BarChart totalParticipants={data.map(event => event.totalParticipants)}/>             
                   </Paper>
               </Grid>
             </div>
