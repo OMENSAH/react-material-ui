@@ -15,14 +15,14 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import SendIcon from '@material-ui/icons/Send';
+import Add from '@material-ui/icons/Add';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import Snackbar from '@material-ui/core/Snackbar'
 import MySnackbarContentWrapper from '../Snackbar/Snackbar'
 
-import SendMesage from '../Message/Message'
+import AddEvent from './../AddEvent/AddEvent';
 
 const drawerWidth = 240;
 
@@ -194,15 +194,15 @@ class MenuAppBar extends React.Component {
                             <List>
                                 <ListItem button onClick={this.handleClickOpenDialog}>
                                     <ListItemIcon className={classes.icon}>
-                                        <SendIcon />
+                                        <Add />
                                     </ListItemIcon>
-                                    <ListItemText classes={{ primary: classes.primary }} inset primary="Sent A Reminder" />
+                                    <ListItemText classes={{ primary: classes.primary }} inset primary="Add Event" />
                                 </ListItem>                            
                             </List>
                         )  
                 }
                 </Drawer> 
-                <SendMesage 
+                <AddEvent 
                     createEvent = {createEvent}
                     openDialog={this.state.openDialog} 
                     onCloseDialog={this.handleCloseDialog}
@@ -223,7 +223,7 @@ class MenuAppBar extends React.Component {
                         <MySnackbarContentWrapper
                             onClose={this.handleCloseSnackbar}
                             variant="success"
-                            message="Participant witll be messaged soon"
+                            message="Event has been successfully recorded"
                         />
                     </Snackbar> 
                     )
@@ -240,7 +240,7 @@ class MenuAppBar extends React.Component {
                         <MySnackbarContentWrapper
                             onClose={this.handleCloseSnackbar}
                             variant="error"
-                            message="Sending message got cancelled "
+                            message="Adding event got cancelled "
                         />
                         </Snackbar>     
                     )

@@ -6,13 +6,14 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
+import { Redirect } from 'react-router-dom';
 
-export default class Message extends React.Component{
+export default class AddEvent extends React.Component{
     state = {    
       eventName:"",
       totalParticipants:"",
-      numberOfMales: 0,  
-      numberOfFemales:0,
+      numberOfMales: "",  
+      numberOfFemales:""
     }
     
     handleChange = (e) => {
@@ -31,6 +32,14 @@ export default class Message extends React.Component{
             numberOfFemales: this.state.numberOfFemales
           }
           this.props.createEvent(data, this.props.handleSendMessage)
+          this.setState(
+            {    
+              eventName:"",
+              totalParticipants:"",
+              numberOfMales: "",  
+              numberOfFemales:""
+            }, () => <Redirect to="/dashboard"/>
+          )
       }
 
     }
@@ -43,11 +52,10 @@ export default class Message extends React.Component{
             onClose={onCloseDialog}
             aria-labelledby="form-dialog-title"
           >
-            <DialogTitle id="form-dialog-title">Participant Reminder</DialogTitle>
+            <DialogTitle id="form-dialog-title">Adding Event</DialogTitle>
             <DialogContent>
               <DialogContentText>
-                To Remind participant about an event, please enter client's and event information. We will send
-                reminder occasionally.
+                Record your events and management them anywhere, everytime.
               </DialogContentText>
               <form>
                 <TextField

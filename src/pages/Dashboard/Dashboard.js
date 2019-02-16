@@ -51,30 +51,38 @@ class Dashboard extends React.Component {
             alert("You must be Authenticated")
             return <Redirect to="/"/>
         }
-        const events = (
+        const dashboardContent = data.length > 0
+        ?(
+          <div>
             <Table className={classes.table}>
-            <TableHead>
-              <TableRow>
-              <TableCell>Upcoming Events</TableCell>
-              <TableCell align="right">Registered participants</TableCell>
-              <TableCell align="right">Number of Males</TableCell>
-              <TableCell align="right">Number of Females</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {data.map((row, id) => (
-              <TableRow key={id}>
-                <TableCell component="th" scope="row">
-                  {row.eventName}
-                </TableCell>
-                <TableCell align="right">{row.totalParticipants}</TableCell>
-                <TableCell align="right">{row.numberOfMales}</TableCell>
-                <TableCell align="right">{row.numberOfFemales}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Upcoming Events</TableCell>
+                  <TableCell align="right">Registered participants</TableCell>
+                  <TableCell align="right">Number of Males</TableCell>
+                  <TableCell align="right">Number of Females</TableCell>
+                </TableRow>
+              </TableHead>
+            <TableBody>
+              {data.map((row, id) => (
+                <TableRow key={id}>
+                  <TableCell component="th" scope="row">
+                    {row.eventName}
+                  </TableCell>
+                  <TableCell align="right">{row.totalParticipants}</TableCell>
+                  <TableCell align="right">{row.numberOfMales}</TableCell>
+                  <TableCell align="right">{row.numberOfFemales}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+          <Typography variant="h5" gutterBottom={true} >
+            Graphical Representation of Event's Participants
+          </Typography> 
+          <BarChart totalParticipants={data.map(event => event.totalParticipants)}/> 
+        </div>
       )
+      :<h1>You are currently not managing any Event.</h1>
      return (
             <div className={classes.root}>
                 <br/> <br/> <br/> <br/>
@@ -85,11 +93,8 @@ class Dashboard extends React.Component {
                 justify="center"
               >
                   <Paper className={classes.paper}>
-                    {events}
-                    <Typography variant="h5" gutterBottom={true} >
-                       Graphical Representation of Event's Participants
-                    </Typography> 
-                    <BarChart totalParticipants={data.map(event => event.totalParticipants)}/>             
+                    {dashboardContent}
+                            
                   </Paper>
               </Grid>
             </div>
