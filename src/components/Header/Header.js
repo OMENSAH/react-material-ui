@@ -110,7 +110,7 @@ class MenuAppBar extends React.Component {
     };
     
     render() {
-        const { classes, theme, auth} = this.props;
+        const { classes, theme, auth, createEvent} = this.props;
         const { openDrawer , anchorEl} = this.state;
         const openScreen = Boolean(anchorEl);
         return (
@@ -203,6 +203,7 @@ class MenuAppBar extends React.Component {
                 }
                 </Drawer> 
                 <SendMesage 
+                    createEvent = {createEvent}
                     openDialog={this.state.openDialog} 
                     onCloseDialog={this.handleCloseDialog}
                     handleCancelMesage = {this.handleSendMessage}

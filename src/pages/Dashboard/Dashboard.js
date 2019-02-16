@@ -62,8 +62,8 @@ class Dashboard extends React.Component {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.map(row => (
-              <TableRow key={row.id}>
+            {data.map((row, id) => (
+              <TableRow key={id}>
                 <TableCell component="th" scope="row">
                   {row.eventName}
                 </TableCell>
