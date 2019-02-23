@@ -7,38 +7,42 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import { Redirect } from 'react-router-dom';
-
-export default class AddEvent extends React.Component{
+import DateFnsUtils from '@date-io/date-fns';
+import { MuiPickersUtilsProvider, DatePicker } from 'material-ui-pickers';
+import 'date-fns';
+const date  = new Date().toDateString()
+class AddEvent extends React.Component{
     state = {    
       eventName:"",
       totalParticipants:"",
-      numberOfMales: "",  
-      numberOfFemales:""
+      selectedDate: date.toString()
     }
     
     handleChange = (e) => {
       e.persist()
-      this.setState({[e.target.name]: e.target.value }, () => console.log({"name ": [e.target.name], "value": e.target.value}));
+      this.setState({[e.target.name]: e.target.value });
     }
 
-    saveData =() => {
+    handleDateChange = date => {
+      this.setState({ selectedDate: date });
+    };
 
-      if(this.state.eventName !== "" && this.state.numberOfMales !== "" &&  this.state.numberOfFemales !== ""){
-        let total = Number.parseInt(this.state.numberOfFemales) + Number.parseInt(this.state.numberOfMales)
+    saveData =() => {    
+      if(this.state.eventName !== "" && this.state.totalParticipants !== ""){
           let data = {
             eventName: this.state.eventName,
-            totalParticipants: total,
-            numberOfMales: this.state.numberOfMales,
-            numberOfFemales: this.state.numberOfFemales
+            totalParticipants: this.state.totalParticipants,
+            selectedDate: this.state.selectedDate
           }
           this.props.createEvent(data, this.props.handleSendMessage)
           this.setState(
             {    
               eventName:"",
               totalParticipants:"",
-              numberOfMales: "",  
-              numberOfFemales:""
-            }, () => <Redirect to="/dashboard"/>
+              selectedDate: date.toString()
+            }, () => {
+              return <Redirect to="/dashboard"/>
+            }
           )
       }
 
@@ -46,6 +50,7 @@ export default class AddEvent extends React.Component{
     
     render(){
       const {openDialog, onCloseDialog, handleCancelMesage} = this.props
+      const { selectedDate } = this.state;
         return (
           <Dialog
             open={openDialog}
@@ -70,27 +75,24 @@ export default class AddEvent extends React.Component{
                   fullWidth
                 />
                 <TextField
-                  value={this.state.numberOfMales} 
+                  value={this.state.totalParticipants} 
                   onChange={this.handleChange}
                   autoFocus
                   margin="dense"
-                  id="numberOfMales"
-                  name="numberOfMales"
-                  label="Number of Males"
+                  id="totalParticipants"
+                  name="totalParticipants"
+                  label="Total Number of Participants"
                   type="number"
                   fullWidth
                 />
-                <TextField
-                  value={this.state.numberOfFemales} 
-                  onChange={this.handleChange}
-                  autoFocus
-                  margin="dense"
-                  id="numberOfFemales"
-                  name="numberOfFemales"
-                  label="Number of Females"
-                  type="number"
-                  fullWidth
-                />              
+                <MuiPickersUtilsProvider utils={DateFnsUtils}> 
+                    <DatePicker
+                      margin="dense"
+                      label="Event Date"
+                      value={selectedDate}
+                      onChange={this.handleDateChange}
+                    /> 
+                </MuiPickersUtilsProvider>       
               </form>
             </DialogContent>
             <DialogActions>
@@ -106,5 +108,5 @@ export default class AddEvent extends React.Component{
     }
 }
 
-
+export default AddEvent;
        

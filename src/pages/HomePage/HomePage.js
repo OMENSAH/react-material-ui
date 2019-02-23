@@ -8,7 +8,7 @@ class HomePage extends Component{
     render(){
         const {classes, auth} = this.props  
         let content = !auth.isAuthenticated() 
-            ?<Button variant="contained" color="primary" className={classes.button}  onClick={auth.login}>Login as Client</ Button>
+            ?<Button variant="contained" color="primary" className={classes.button}  onClick={auth.login}>Login</ Button>
             :null
         return (
             <div className="v-header container">

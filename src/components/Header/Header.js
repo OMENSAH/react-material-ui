@@ -16,6 +16,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Add from '@material-ui/icons/Add';
+import Info from '@material-ui/icons/Info';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
@@ -33,9 +34,10 @@ const styles = theme => ({
     },
     grow: {
         flexGrow: 1,
+        marginLeft: 15
     },
     menuButton: {
-        marginLeft: -12,
+        marginLeft: 20,
         marginRight: 20,
     },
     appBar: {
@@ -130,11 +132,20 @@ class MenuAppBar extends React.Component {
                         >
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" color="inherit" className={classes.grow}>
+                    <Typography variant="h6" color="inherit">
                         <NavLink to="/" style={{ textDecoration: 'none', color: 'white' }}>
                             Home
                         </NavLink>
-                 </Typography>
+                    </Typography>
+                    {
+                        auth.isAuthenticated()  && (
+                            <Typography variant="h6" color="inherit" className={classes.grow}>
+                                <NavLink to="/dashboard" style={{ textDecoration: 'none', color: 'white' }}>
+                                    Dashboard
+                                </NavLink>
+                            </Typography>
+                        )
+                    }
                     {auth.isAuthenticated() && (
                         <div>
                             <IconButton
@@ -160,12 +171,7 @@ class MenuAppBar extends React.Component {
                             >
                             <MenuItem>
                                 <NavLink to="/account" style={{ textDecoration: 'none', color: 'black' }}>
-                                My Account
-                                </NavLink>
-                            </MenuItem>
-                            <MenuItem >
-                                <NavLink to="/dashboard" style={{ textDecoration: 'none', color: 'black' }}>
-                                Dashboard
+                                    My Account
                                 </NavLink>
                             </MenuItem>
                             <MenuItem onClick={auth.logout}>Logout</MenuItem>
@@ -189,18 +195,27 @@ class MenuAppBar extends React.Component {
                         </IconButton>
                     </div>
                     <Divider />
-                    {
-                        auth.isAuthenticated() &&(
-                            <List>
+                    <List>
+                        <NavLink to="/about" style={{ textDecoration: 'none' }}>    
+                            <ListItem button>
+                                <ListItemIcon className={classes.icon}>
+                                    <Info />
+                                </ListItemIcon>
+                                    <ListItemText classes={{ primary: classes.primary }} inset primary="About" />
+                            </ListItem>
+                        </NavLink>
+                        {
+                            auth.isAuthenticated() &&(
                                 <ListItem button onClick={this.handleClickOpenDialog}>
                                     <ListItemIcon className={classes.icon}>
                                         <Add />
                                     </ListItemIcon>
                                     <ListItemText classes={{ primary: classes.primary }} inset primary="Add Event" />
                                 </ListItem>                            
-                            </List>
-                        )  
-                }
+                            )  
+                        }
+                    </List>
+        
                 </Drawer> 
                 <AddEvent 
                     createEvent = {createEvent}

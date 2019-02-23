@@ -11,6 +11,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography'
 
 import BarChart from '../../components/Chart/Chart'
+import Spacing from '../../components/Spacing/Spacing';
 
 
 const styles = theme => ({
@@ -21,8 +22,32 @@ const styles = theme => ({
     padding: theme.spacing.unit * 2,
     textAlign: 'center',
     color: theme.palette.text.secondary,
+  }, 
+  marginTop: {
+    marginTop: 30,
+    marginBottom: 30,
+    fontWeight: 'bold'
+  },
+  table: {
+    minWidth: 700,
+  },
+  row: {
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.background.default,
+    }
   }
 });
+
+
+const CustomTableCell = withStyles(theme => ({
+  head: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  body: {
+    fontSize: 14,
+  },
+}))(TableCell);
 
 
 
@@ -57,26 +82,22 @@ class Dashboard extends React.Component {
             <Table className={classes.table}>
               <TableHead>
                 <TableRow>
-                  <TableCell>Upcoming Events</TableCell>
-                  <TableCell align="right">Registered participants</TableCell>
-                  <TableCell align="right">Number of Males</TableCell>
-                  <TableCell align="right">Number of Females</TableCell>
+                  <CustomTableCell>Upcoming Events</CustomTableCell>
+                  <CustomTableCell align="right">Number of Participants</CustomTableCell>
+                  <CustomTableCell align="right">Event Date</CustomTableCell>
                 </TableRow>
               </TableHead>
             <TableBody>
               {data.map((row, id) => (
-                <TableRow key={id}>
-                  <TableCell component="th" scope="row">
-                    {row.eventName}
-                  </TableCell>
-                  <TableCell align="right">{row.totalParticipants}</TableCell>
-                  <TableCell align="right">{row.numberOfMales}</TableCell>
-                  <TableCell align="right">{row.numberOfFemales}</TableCell>
+                <TableRow key={id} className={classes.row}>
+                  <CustomTableCell component="th" scope="row">{row.eventName}</CustomTableCell>
+                  <CustomTableCell align="right">{row.totalParticipants}</CustomTableCell>
+                  <CustomTableCell align="right">{row.selectedDate}</CustomTableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
-          <Typography variant="h5" gutterBottom={true} >
+          <Typography variant="h5" gutterBottom={true} className={classes.marginTop} >
             Graphical Representation of Event's Participants
           </Typography> 
           <BarChart totalParticipants={data.map(event => event.totalParticipants)}/> 
@@ -85,17 +106,15 @@ class Dashboard extends React.Component {
       :<h1>You are currently not managing any Event.</h1>
      return (
             <div className={classes.root}>
-                <br/> <br/> <br/> <br/>
+              <Spacing/>
               <Grid
                 container
-                spacing={0}
                 align="center"
                 justify="center"
               >
-                  <Paper className={classes.paper}>
-                    {dashboardContent}
-                            
-                  </Paper>
+                <Paper className={classes.paper}>
+                  {dashboardContent}         
+                </Paper>
               </Grid>
             </div>
         );

@@ -13,8 +13,12 @@ import Typography from '@material-ui/core/Typography';
 import red from '@material-ui/core/colors/red';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Grid from '@material-ui/core/Grid'
+import Spacing from '../../components/Spacing/Spacing';
 
 const styles = theme => ({
+  root: {
+    flexGrow: 1
+  },
   card: {
     maxWidth: 400,
   },
@@ -62,13 +66,11 @@ class AccountDetails extends React.Component {
         const name = profile.name  || profile.nickname    
         return (
              <div className={classes.root}>
-                <br/> <br/> <br/> <br/>
+              <Spacing/>
             <Grid
                 container
-                spacing={0}
                 alignItems="center"
                 justify="center"
-                item xs={6}  lg={6}
              >
                 <Card className={classes.card} >
                     <CardHeader
@@ -109,7 +111,6 @@ class AccountDetails extends React.Component {
                     <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
                         <CardContent>
                             <Typography paragraph>Update:</Typography>
-                           
                         </CardContent>
                     </Collapse>
                 </Card>
