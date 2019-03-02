@@ -197,7 +197,7 @@ class MenuAppBar extends React.Component {
                     <Divider />
                     <List>
                         <NavLink to="/about" style={{ textDecoration: 'none' }}>    
-                            <ListItem button>
+                            <ListItem button onClick={this.handleDrawerClose}>
                                 <ListItemIcon className={classes.icon}>
                                     <Info />
                                 </ListItemIcon>

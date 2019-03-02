@@ -15,7 +15,7 @@ class AddEvent extends React.Component{
     state = {    
       eventName:"",
       totalParticipants:"",
-      selectedDate: date.toString()
+      selectedDate: date
     }
     
     handleChange = (e) => {
@@ -24,7 +24,7 @@ class AddEvent extends React.Component{
     }
 
     handleDateChange = date => {
-      this.setState({ selectedDate: date });
+      this.setState({ selectedDate: date.toDateString() });
     };
 
     saveData =() => {    

@@ -10,7 +10,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography'
 
-import BarChart from '../../components/Chart/Chart'
+import Chart from '../../components/Chart/Chart'
 import Spacing from '../../components/Spacing/Spacing';
 
 
@@ -100,7 +100,7 @@ class Dashboard extends React.Component {
           <Typography variant="h5" gutterBottom={true} className={classes.marginTop} >
             Graphical Representation of Event's Participants
           </Typography> 
-          <BarChart totalParticipants={data.map(event => event.totalParticipants)}/> 
+          <Chart data={data}/> 
         </div>
       )
       :<h1>You are currently not managing any Event.</h1>
