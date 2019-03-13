@@ -9,8 +9,6 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography'
-
-import Chart from '../../components/Chart/Chart'
 import Spacing from '../../components/Spacing/Spacing';
 
 
@@ -97,10 +95,6 @@ class Dashboard extends React.Component {
               ))}
             </TableBody>
           </Table>
-          <Typography variant="h5" gutterBottom={true} className={classes.marginTop} >
-            Graphical Representation of Event's Participants
-          </Typography> 
-          <Chart data={data}/> 
         </div>
       )
       :<h1>You are currently not managing any Event.</h1>
