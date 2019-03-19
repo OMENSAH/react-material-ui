@@ -1,104 +1,63 @@
-/* eslint no-restricted-globals:0 */
-import auth0 from 'auth0-js';
-import { AUTH_CONFIG } from './auth0-variables';
-import jwt_decode from 'jwt-decode'
-
-const LOGIN_SUCCESS_PAGE = "/dashboard"
-const LOGIN_FAILED_PAGE = "/"
-
-
-export default class Auth {
-  auth0 = new auth0.WebAuth({
-    domain: AUTH_CONFIG.domain,
-    clientID: AUTH_CONFIG.clientId,
-    redirectUri: AUTH_CONFIG.callbackUrl,
-    responseType: 'token id_token',
-    scope: 'openid profile'
-  });
-
-  login = ()=> {
-    this.auth0.authorize();
-  }
-
-  handleAuthentication = () => {
-    this.auth0.parseHash((err, authResult) => {
-      if (authResult && authResult.accessToken && authResult.idToken) {
-        this.setSession(authResult);
-      } else if (err) {
-        console.log(err);
-        alert(`Error: ${err.error}. Check the console for further details.`);
-        location.pathname = LOGIN_FAILED_PAGE
-      }
+import auth0 from "auth0-js";
+import { AUTH_CONFIG } from "./auth0-variables";
+class Auth {
+  constructor() {
+    this.auth0 = new auth0.WebAuth({
+      domain: AUTH_CONFIG.domain,
+      clientID: AUTH_CONFIG.clientId,
+      audience: AUTH_CONFIG.audience,
+      redirectUri: AUTH_CONFIG.callbackUrl,
+      responseType: "id_token",
+      scope: "openid profile"
     });
+
+    this.getProfile = this.getProfile.bind(this);
+    this.handleAuthentication = this.handleAuthentication.bind(this);
+    this.isAuthenticated = this.isAuthenticated.bind(this);
+    this.signIn = this.signIn.bind(this);
+    this.signOut = this.signOut.bind(this);
   }
 
-  getAccessToken = () => {
-    return this.accessToken;
+  getProfile() {
+    return this.profile;
   }
 
-  getIdToken = ()=> {
+  getIdToken() {
     return this.idToken;
   }
 
-  setSession = (authResult)=> {
-    let expiresAt = JSON.stringify(authResult.expiresIn * 1000) + new Date().getTime();
-    localStorage.setItem("access_token", authResult.accessToken)
-    localStorage.setItem("id_token", authResult.idToken)
-    localStorage.setItem("expiresAt", expiresAt)
-    localStorage.setItem("isLoggedIn", true)
-    location.hash = ""
-    location.pathname = LOGIN_SUCCESS_PAGE 
+  isAuthenticated() {
+    return new Date().getTime() < this.expiresAt;
   }
 
-  renewSession = () =>{
-    this.auth0.checkSession({}, (err, authResult) => {
-       if (authResult && authResult.accessToken && authResult.idToken) {
-         this.setSession(authResult);
-       } else if (err) {
-         this.logout();
-         console.log(err);
-         alert(`Could not get a new token (${err.error}: ${err.error_description}).`);
-       }
-    });
+  signIn() {
+    this.auth0.authorize();
   }
 
-  logout = () => {
-    localStorage.removeItem("access_token")
-    localStorage.removeItem("id_token")
-    localStorage.removeItem("expiresAt")
-    localStorage.removeItem("isLoggedIn")
-    location.pathname = LOGIN_FAILED_PAGE 
+  handleAuthentication() {
+    return new Promise((resolve, reject) => {
+      this.auth0.parseHash((err, authResult) => {
+        if (err) return reject(err);
+        if (!authResult || !authResult.idToken) {
+          return reject(err);
+        }
+        this.idToken = authResult.idToken;
+        this.profile = authResult.idTokenPayload;
+        // set the time that the id token will expire at
+        this.expiresAt = authResult.idTokenPayload.exp * 1000;
+        resolve();
+      });
+    })
   }
 
-  isAuthenticated = ()=> {
-    let expiresAt = JSON.parse(localStorage.getItem("expiresAt"))
-    return new Date().getTime() < expiresAt;
+  signOut() {
+    // clear id token, profile, and expiration
+    this.idToken = null;
+    this.profile = null;
+    this.expiresAt = null;
   }
-
-
-  // getProfile = (cb)=> {
-  //   let accessToken = localStorage.getItem("access_token")
-  //   if(accessToken){
-  //     this.auth0.client.userInfo(accessToken, (err, profile) => {
-  //       if (profile) {
-  //         return profile
-  //       }
-  //       cb(err, profile);
-  //     });
-  //   }
-  // }
-
-
-  getProfile = ()=> {
-    let idToken = localStorage.getItem("id_token")
-    if(idToken){
-      return jwt_decode(idToken)
-    }
-    return {}
-  }
-
-
-
-  
-  
 }
+
+const auth0Client = new Auth();
+
+export default auth0Client;

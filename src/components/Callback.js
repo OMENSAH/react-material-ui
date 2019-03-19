@@ -1,17 +1,18 @@
-import React from 'react';
+import React, {Component} from "react";
+import {withRouter} from "react-router-dom";
+import auth0Client from "../service/Auth";
 
-class Callback extends React.Component{
-    componentDidMount(){
-        this.props.auth.handleAuthentication()
-    }
-    render(){
-        return(
-            <div>
-                <br/><br/><br/><br/>
-                 <h1>Loading...</h1>
-            </div>
+class Callback extends Component {
+  async componentDidMount() {
+    await auth0Client.handleAuthentication();
+    this.props.history.replace('/');
+  }
 
-        )
-    }
-} 
-export default Callback
+  render() {
+    return (
+      <p>Loading profile...</p>
+    );
+  }
+}
+
+export default withRouter(Callback);
