@@ -48,7 +48,9 @@ class AccountDetails extends React.Component {
   };
 
   componentDidMount() {
-    this.setState({ profile: this.props.auth.getProfile() }, ()=> console.log(this.state.profile));
+    this.setState({ profile: this.props.auth.getProfile() }, () =>
+      console.log(this.state.profile)
+    );
   }
 
   handleExpandClick = () => {
@@ -57,15 +59,12 @@ class AccountDetails extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { profile } = this.state;    
+    const { profile } = this.state;
     return (
       <div className={classes.root}>
         <Grid container alignItems="center" justify="center">
           <Card className={classes.card}>
-            <CardHeader
-              title={profile.name}
-              subheader={profile.nickname}
-            />
+            <CardHeader title={profile.name} subheader={profile.nickname} />
             <CardMedia
               className={classes.media}
               image={profile.picture}
@@ -75,9 +74,7 @@ class AccountDetails extends React.Component {
               <Typography variant="h5" gutterBottom={true}>
                 User Profile Data
               </Typography>
-              <Typography component="p">
-                {console.log(profile)}
-              </Typography>
+              <Typography component="p">{console.log(profile)}</Typography>
             </CardContent>
             <CardActions className={classes.actions} disableActionSpacing>
               <IconButton
@@ -94,7 +91,7 @@ class AccountDetails extends React.Component {
             <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
               <CardContent>
                 <Typography paragraph>
-                  {profile.name} profile's data is highly secured. 
+                  {profile.name} profile's data is highly secured.
                 </Typography>
               </CardContent>
             </Collapse>

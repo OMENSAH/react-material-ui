@@ -1,5 +1,6 @@
 import auth0 from "auth0-js";
-import { AUTH_CONFIG } from "./auth0-variables";
+import AUTH_CONFIG from "./auth0-variables";
+
 class Auth {
   constructor() {
     this.auth0 = new auth0.WebAuth({
@@ -36,7 +37,7 @@ class Auth {
 
   handleAuthentication() {
     return new Promise((resolve, reject) => {
-      this.auth0.parseHash((err, authResult) => {
+      return this.auth0.parseHash((err, authResult) => {
         if (err) return reject(err);
         if (!authResult || !authResult.idToken) {
           return reject(err);
@@ -47,7 +48,7 @@ class Auth {
         this.expiresAt = authResult.idTokenPayload.exp * 1000;
         resolve();
       });
-    })
+    });
   }
 
   signOut() {

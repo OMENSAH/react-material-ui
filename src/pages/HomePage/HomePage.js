@@ -6,7 +6,7 @@ import "./HomePage.css";
 class HomePage extends Component {
   render() {
     const { classes, auth } = this.props;
-    let content = !auth.isAuthenticated() ? (
+    const content = !auth.isAuthenticated() ? (
       <Button
         variant="contained"
         color="primary"

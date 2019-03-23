@@ -27,8 +27,12 @@ class App extends Component {
     return (
       <BrowserRouter>
         <div style={divStyle}>
-          <MenuAppBar auth={AuthClient} createEvent={this.createEvent}/>
-          <Route path="/" exact component={() => <HomePage auth={AuthClient} />} />
+          <MenuAppBar auth={AuthClient} createEvent={this.createEvent} />
+          <Route
+            path="/"
+            exact
+            component={() => <HomePage auth={AuthClient} />}
+          />
           <Route
             path="/callback"
             exact
@@ -37,7 +41,9 @@ class App extends Component {
           <Route
             path="/dashboard"
             exact
-            component={() => <Dashboard auth={AuthClient} data={this.state.data} />}
+            component={() => (
+              <Dashboard auth={AuthClient} data={this.state.data} />
+            )}
           />
           <Route path="/about" exact component={About} />
           <Route

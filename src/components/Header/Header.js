@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, withRouter } from "react-router-dom";
 import React from "react";
 import classNames from "classnames";
 import { withStyles } from "@material-ui/core/styles";
@@ -110,7 +110,11 @@ class MenuAppBar extends React.Component {
   handleDrawerClose = () => {
     this.setState({ openDrawer: false });
   };
-
+  logOut = () => {
+    const { history, auth } = this.props;
+    auth.signOut();
+    history.replace("/");
+  }
   render() {
     const { classes, theme, auth, createEvent } = this.props;
     const { openDrawer, anchorEl } = this.state;
@@ -184,7 +188,7 @@ class MenuAppBar extends React.Component {
                       My Account
                     </NavLink>
                   </MenuItem>
-                  <MenuItem onClick={auth.signout}>Logout</MenuItem>
+                  <MenuItem onClick={this.logOut}>Logout</MenuItem>
                 </Menu>
               </div>
             )}
@@ -281,4 +285,4 @@ class MenuAppBar extends React.Component {
   }
 }
 
-export default withStyles(styles, { withTheme: true })(MenuAppBar);
+export default withStyles(styles, { withTheme: true })(withRouter(MenuAppBar));
