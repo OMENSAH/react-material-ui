@@ -1,5 +1,5 @@
 import React from "react";
-import {Redirect} from "react-router-dom"
+import { Redirect } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
@@ -9,104 +9,103 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 
-
 const styles = theme => ({
   root: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   paper: {
     padding: theme.spacing.unit * 2,
     textAlign: "center",
-    color: theme.palette.text.secondary,
-  }, 
+    color: theme.palette.text.secondary
+  },
   marginTop: {
     marginTop: 30,
     marginBottom: 30,
     fontWeight: "bold"
   },
   table: {
-    minWidth: 700,
+    minWidth: 700
   },
   row: {
     "&:nth-of-type(odd)": {
-      backgroundColor: theme.palette.background.default,
+      backgroundColor: theme.palette.background.default
     }
   }
 });
 
-
 const CustomTableCell = withStyles(theme => ({
   head: {
     backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
+    color: theme.palette.common.white
   },
   body: {
-    fontSize: 14,
-  },
+    fontSize: 14
+  }
 }))(TableCell);
 
-
-
-
 class Dashboard extends React.Component {
-    state ={
+  constructor(props) {
+    super(props);
+    this.state = {
       showSnackbar: false,
-      cancelled: false,
-    }
-    
-  
-    handleSendMessage = () => {
-      this.setState({ openDialog: false, showSnackbar: true,cancelled:false})
+      cancelled: false
     };
+  }
 
-    handleCancelMesage = () => {
-      this.setState({ openDialog: false, showSnackbar: true, cancelled:true});
+  handleSendMessage = () => {
+    this.setState({ openDialog: false, showSnackbar: true, cancelled: false });
+  };
+
+  handleCancelMesage = () => {
+    this.setState({ openDialog: false, showSnackbar: true, cancelled: true });
+  };
+  render() {
+    const { classes, auth, data } = this.props;
+    if (!auth.isAuthenticated()) {
+      alert("You must be Authenticated");
+      return <Redirect to="/" />;
     }
-    render(){
-        const {classes, auth, data} = this.props
-        if(!auth.isAuthenticated()){
-            alert("You must be Authenticated")
-            return <Redirect to="/"/>
-        }
-        const dashboardContent = data.length > 0
-        ?(
-          <div>
-            <Table className={classes.table}>
-              <TableHead>
-                <TableRow>
-                  <CustomTableCell>Upcoming Events</CustomTableCell>
-                  <CustomTableCell align="right">Number of Participants</CustomTableCell>
-                  <CustomTableCell align="right">Event Date</CustomTableCell>
-                </TableRow>
-              </TableHead>
+    const dashboardContent =
+      data.length > 0 ? (
+        <div>
+          <Table className={classes.table}>
+            <TableHead>
+              <TableRow>
+                <CustomTableCell>Upcoming Events</CustomTableCell>
+                <CustomTableCell align="right">
+                  Number of Participants
+                </CustomTableCell>
+                <CustomTableCell align="right">Event Date</CustomTableCell>
+              </TableRow>
+            </TableHead>
             <TableBody>
               {data.map((row, id) => (
                 <TableRow key={id} className={classes.row}>
-                  <CustomTableCell component="th" scope="row">{row.eventName}</CustomTableCell>
-                  <CustomTableCell align="right">{row.totalParticipants}</CustomTableCell>
-                  <CustomTableCell align="right">{row.selectedDate}</CustomTableCell>
+                  <CustomTableCell component="th" scope="row">
+                    {row.eventName}
+                  </CustomTableCell>
+                  <CustomTableCell align="right">
+                    {row.totalParticipants}
+                  </CustomTableCell>
+                  <CustomTableCell align="right">
+                    {row.selectedDate}
+                  </CustomTableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </div>
-      )
-      :<h1>You are currently not managing any Event.</h1>
-     return (
-            <div className={classes.root}>
-              <Grid
-                container
-                align="center"
-                justify="center"
-              >
-                <Paper className={classes.paper}>
-                  {dashboardContent}         
-                </Paper>
-              </Grid>
-            </div>
-        );
-    }
-  
+      ) : (
+        <h1>You are currently not managing any Event.</h1>
+      );
+    return (
+      <div className={classes.root}>
+        <Grid container align="center" justify="center">
+          <Paper className={classes.paper}>{dashboardContent}</Paper>
+        </Grid>
+      </div>
+    );
+  }
 }
 
-export default withStyles(styles)(Dashboard)
+export default withStyles(styles)(Dashboard);

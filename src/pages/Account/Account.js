@@ -42,10 +42,13 @@ const styles = theme => ({
   }
 });
 class AccountDetails extends React.Component {
-  state = {
-    expanded: false,
-    profile: {}
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      expanded: false,
+      profile: {}
+    };
+  }
 
   componentDidMount() {
     this.setState({ profile: this.props.auth.getProfile() }, () =>

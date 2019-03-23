@@ -71,14 +71,16 @@ const styles = theme => ({
 });
 
 class MenuAppBar extends React.Component {
-  state = {
-    openDrawer: false,
-    anchorEl: null,
-    openDialog: false,
-    showSnackbar: false,
-    cancelled: false
-  };
-
+  constructor(props){
+    super(props);
+    this.state = {
+      openDrawer: false,
+      anchorEl: null,
+      openDialog: false,
+      showSnackbar: false,
+      cancelled: false
+    };
+  }
   handleClickOpenDialog = () => {
     this.setState({ openDialog: true });
   };

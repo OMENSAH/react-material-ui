@@ -13,11 +13,15 @@ import "date-fns";
 const date = new Date().toDateString();
 
 class AddEvent extends React.Component {
-  state = {
-    eventName: "",
-    totalParticipants: "",
-    selectedDate: date
-  };
+  
+  constructor(props){
+    super(props);
+    this.state = {
+      eventName: "",
+      totalParticipants: "",
+      selectedDate: date
+    };
+  }
 
   handleChange = e => {
     e.persist();
