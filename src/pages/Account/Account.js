@@ -22,7 +22,7 @@ const styles = theme => ({
   },
   media: {
     height: 0,
-    paddingTop: "56.25%" // 16:9
+    paddingTop: "56.25%"
   },
   actions: {
     display: "flex"
@@ -51,9 +51,7 @@ class AccountDetails extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({ profile: this.props.auth.getProfile() }, () =>
-      console.log(this.state.profile)
-    );
+    this.setState({ profile: this.props.auth.getProfile() });
   }
 
   handleExpandClick = () => {
@@ -67,7 +65,7 @@ class AccountDetails extends React.Component {
       <div className={classes.root}>
         <Grid container alignItems="center" justify="center">
           <Card className={classes.card}>
-            <CardHeader title={profile.name} subheader={profile.nickname} />
+            <CardHeader title={profile.nickname} />
             <CardMedia
               className={classes.media}
               image={profile.picture}
@@ -75,9 +73,8 @@ class AccountDetails extends React.Component {
             />
             <CardContent>
               <Typography variant="h5" gutterBottom={true}>
-                User Profile Data
+                Other Profile Data
               </Typography>
-              <Typography component="p">{console.log(profile)}</Typography>
             </CardContent>
             <CardActions className={classes.actions} disableActionSpacing>
               <IconButton
@@ -93,8 +90,8 @@ class AccountDetails extends React.Component {
             </CardActions>
             <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
               <CardContent>
-                <Typography paragraph>
-                  {profile.name} profile's data is highly secured.
+                <Typography component={"span"} variant={"body2"}>
+                  <pre>{JSON.stringify(profile, null, 2)}</pre>
                 </Typography>
               </CardContent>
             </Collapse>

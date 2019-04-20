@@ -1,5 +1,4 @@
 import React from "react";
-import { Redirect } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
@@ -60,11 +59,7 @@ class Dashboard extends React.Component {
     this.setState({ openDialog: false, showSnackbar: true, cancelled: true });
   };
   render() {
-    const { classes, auth, data } = this.props;
-    if (!auth.isAuthenticated()) {
-      alert("You must be Authenticated");
-      return <Redirect to="/" />;
-    }
+    const { classes, data } = this.props;
     const dashboardContent =
       data.length > 0 ? (
         <div>

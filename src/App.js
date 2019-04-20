@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import "./App.css";
-import { BrowserRouter, Route } from "react-router-dom";
+import { Route, Redirect, withRouter } from "react-router-dom";
 
 import MenuAppBar from "./components/Header/Header";
-import AuthClient from "./service/Auth";
+import Auth from "./service/Auth";
 
 import HomePage from "./pages/HomePage/HomePage";
 import Callback from "./components/Callback";
@@ -16,45 +16,68 @@ const divStyle = {
 };
 
 class App extends Component {
-  state = {
-    data: []
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: [],
+      checkingSession: true
+    };
+    this.auth = new Auth(this.props.history);
+  }
+
+  async componentDidMount() {
+    if (this.props.location.pathname === "/callback") {
+      this.setState({ checkingSession: false });
+      return;
+    }
+    try {
+      await this.auth.silentAuth();
+      this.forceUpdate();
+    } catch (err) {
+      console.log(err.error);
+    }
+    this.setState({ checkingSession: false });
+  }
+
   createEvent = (event, cb) => {
     let newDataSet = [...this.state.data, event];
     this.setState({ data: newDataSet }, () => cb());
   };
+
   render() {
+    // if(!this.state.tokenRenewalComplete) return "Loading";
     return (
-      <BrowserRouter>
-        <div style={divStyle}>
-          <MenuAppBar auth={AuthClient} createEvent={this.createEvent} />
-          <Route
-            path="/"
-            exact
-            component={() => <HomePage auth={AuthClient} />}
-          />
-          <Route
-            path="/callback"
-            exact
-            component={() => <Callback auth={AuthClient} />}
-          />
-          <Route
-            path="/dashboard"
-            exact
-            component={() => (
-              <Dashboard auth={AuthClient} data={this.state.data} />
-            )}
-          />
-          <Route path="/about" exact component={About} />
-          <Route
-            path="/account"
-            exact
-            component={() => <AccountDetails auth={AuthClient} />}
-          />
-        </div>
-      </BrowserRouter>
+      <div style={divStyle}>
+        <MenuAppBar auth={this.auth} createEvent={this.createEvent} />
+        <Route path="/" exact component={() => <HomePage auth={this.auth} />} />
+        <Route
+          path="/callback"
+          component={props => <Callback auth={this.auth} {...props} />}
+        />
+        <Route
+          path="/dashboard"
+          component={() =>
+            this.auth.isAuthenticated() ? (
+              <Dashboard auth={this.auth} data={this.state.data} />
+            ) : (
+              <Redirect to="/" />
+            )
+          }
+        />
+        <Route path="/about" component={About} />
+        <Route
+          path="/account"
+          component={() =>
+            this.auth.isAuthenticated() ? (
+              <AccountDetails auth={this.auth} />
+            ) : (
+              <Redirect to="/" />
+            )
+          }
+        />
+      </div>
     );
   }
 }
 
-export default App;
+export default withRouter(App);

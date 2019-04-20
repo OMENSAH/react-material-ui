@@ -13,8 +13,7 @@ import "date-fns";
 const date = new Date().toDateString();
 
 class AddEvent extends React.Component {
-  
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       eventName: "",

@@ -49,7 +49,7 @@ function getStepContent(step) {
 }
 
 class VerticalLinearStepper extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       activeStep: 0

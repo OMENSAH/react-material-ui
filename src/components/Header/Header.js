@@ -71,7 +71,7 @@ const styles = theme => ({
 });
 
 class MenuAppBar extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       openDrawer: false,
@@ -112,11 +112,7 @@ class MenuAppBar extends React.Component {
   handleDrawerClose = () => {
     this.setState({ openDrawer: false });
   };
-  logOut = () => {
-    const { history, auth } = this.props;
-    auth.signOut();
-    history.replace("/");
-  }
+
   render() {
     const { classes, theme, auth, createEvent } = this.props;
     const { openDrawer, anchorEl } = this.state;
@@ -190,7 +186,7 @@ class MenuAppBar extends React.Component {
                       My Account
                     </NavLink>
                   </MenuItem>
-                  <MenuItem onClick={this.logOut}>Logout</MenuItem>
+                  <MenuItem onClick={auth.signOut}>Logout</MenuItem>
                 </Menu>
               </div>
             )}
