@@ -1,13 +1,13 @@
 import auth0 from "auth0-js";
-import AUTH_CONFIG from "./auth0-variables";
 
 class Auth {
-  constructor() {
+  constructor(history) {
+    this.history  = history
     this.auth0 = new auth0.WebAuth({
-      domain: AUTH_CONFIG.domain,
-      clientID: AUTH_CONFIG.clientId,
-      audience: AUTH_CONFIG.audience,
-      redirectUri: AUTH_CONFIG.callbackUrl,
+      domain: process.env.REACT_APP_AUTHO_DOMAIN,
+      clientID: process.env.REACT_APP_AUTHO_CLIENTID,
+      audience: process.env.REACT_APP_AUTHO_AUDIENCE,
+      redirectUri: process.env.REACT_APP_AUTHO_CALLBACKURL,
       responseType: "id_token",
       scope: "openid profile"
     });
