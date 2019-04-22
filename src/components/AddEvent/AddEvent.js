@@ -10,6 +10,7 @@ import { Redirect } from "react-router-dom";
 import DateFnsUtils from "@date-io/date-fns";
 import { MuiPickersUtilsProvider, DatePicker } from "material-ui-pickers";
 import "date-fns";
+
 const date = new Date().toDateString();
 
 class AddEvent extends React.Component {

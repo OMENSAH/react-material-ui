@@ -81,6 +81,7 @@ class MenuAppBar extends React.Component {
       cancelled: false
     };
   }
+
   handleClickOpenDialog = () => {
     this.setState({ openDialog: true });
   };
