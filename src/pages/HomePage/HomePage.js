@@ -24,7 +24,7 @@ class HomePage extends Component {
         <div className="header-content text-md-center">
           <h1>Event Scheme</h1>
           <Typography>
-            Let's help you create and manage easier customizable events.
+            Let's help you create and manage your events.
           </Typography>
           {content}
         </div>
