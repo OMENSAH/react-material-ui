@@ -9,13 +9,13 @@ import CardActions from "@material-ui/core/CardActions";
 import Collapse from "@material-ui/core/Collapse";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
-import red from "@material-ui/core/colors/red";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Grid from "@material-ui/core/Grid";
 
 const styles = theme => ({
   root: {
-    flexGrow: 1
+    flexGrow: 1,
+    marginTop: 30,
   },
   card: {
     maxWidth: 400
@@ -36,9 +36,6 @@ const styles = theme => ({
   },
   expandOpen: {
     transform: "rotate(180deg)"
-  },
-  avatar: {
-    backgroundColor: red[500]
   }
 });
 class AccountDetails extends React.Component {
@@ -46,12 +43,14 @@ class AccountDetails extends React.Component {
     super(props);
     this.state = {
       expanded: false,
-      profile: {}
+      profile: {},
+      imagePlaceHolder:"./placeholder.png"
     };
   }
 
   componentDidMount() {
-    this.setState({ profile: this.props.auth.getProfile() });
+    let profile = this.props.auth.getProfile()
+    this.setState({ profile, imagePlaceHolder: profile.picture })
   }
 
   handleExpandClick = () => {
@@ -68,7 +67,7 @@ class AccountDetails extends React.Component {
             <CardHeader title={profile.nickname} />
             <CardMedia
               className={classes.media}
-              image={profile.picture}
+              image={this.state.imagePlaceHolder}
               title={profile.name}
             />
             <CardContent>

@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import Button from "@material-ui/core/Button";
 import { withStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+
 import "./HomePage.css";
 
 class HomePage extends Component {
@@ -21,10 +23,9 @@ class HomePage extends Component {
         <div className="header-overlay" />
         <div className="header-content text-md-center">
           <h1>Event Scheme</h1>
-          <p>
-            We help individuals to create events, customized, manage their
-            events. All events are reviewed by our system before approval.
-          </p>
+          <Typography>
+            Let's help you create and manage easier customizable events.
+          </Typography>
           {content}
         </div>
       </div>

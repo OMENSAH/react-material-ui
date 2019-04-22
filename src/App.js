@@ -12,7 +12,7 @@ import AccountDetails from "./pages/Account/Account";
 import About from "./pages/About/About";
 
 const divStyle = {
-  margin: "60px"
+  margin: "65px"
 };
 
 class App extends Component {
@@ -45,7 +45,6 @@ class App extends Component {
   };
 
   render() {
-    // if(!this.state.tokenRenewalComplete) return "Loading";
     return (
       <div style={divStyle}>
         <MenuAppBar auth={this.auth} createEvent={this.createEvent} />
