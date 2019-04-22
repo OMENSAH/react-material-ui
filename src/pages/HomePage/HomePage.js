@@ -19,9 +19,9 @@ class HomePage extends Component {
       </Button>
     ) : null;
     return (
-      <div className="v-header container">
-        <div className="header-overlay" />
-        <div className="header-content text-md-center">
+      <div className="container">
+        <div className="overlay" />
+        <div className="content">
           <h1>Event Scheme</h1>
           <Typography>
             Let's help you create and manage your events.

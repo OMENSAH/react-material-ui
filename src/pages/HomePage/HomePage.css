@@ -1,22 +1,19 @@
-.v-header {
+.container {
   height: 100vh;
   display: flex;
   align-items: center;
   color: #fff;
-}
-
-.container {
   max-width: 960px;
   padding-left: 1rem;
   padding-right: 1rem;
   margin: auto;
+  justify-content:center;
   text-align: center;
 }
 
-.header-overlay {
+.overlay {
   height: 100vh;
   position: absolute;
-  top: 20;
   left: 0;
   width: 100vw;
   z-index: 1;
@@ -24,17 +21,21 @@
   opacity: 0.85;
 }
 
-.header-content {
-  z-index: 2;
+
+.content {
+  z-index: 3;
 }
 
-.header-content h1 {
+.content h1 {
   font-size: 50px;
   margin-bottom: 0;
 }
 
-.header-content p {
+.content p {
   font-size: 1.5rem;
   display: block;
   padding-bottom: 2rem;
 }
+
+
+
