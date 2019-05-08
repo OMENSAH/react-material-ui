@@ -11,7 +11,7 @@ import TableRow from "@material-ui/core/TableRow";
 const styles = theme => ({
   root: {
     flexGrow: 1,
-    marginTop: 30,
+    marginTop: 30
   },
   paper: {
     padding: theme.spacing.unit * 2,
@@ -42,22 +42,13 @@ class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showSnackbar: false,
-      cancelled: false
+      data: this.props.data
     };
   }
-
-  handleSendMessage = () => {
-    this.setState({ openDialog: false, showSnackbar: true, cancelled: false });
-  };
-
-  handleCancelMesage = () => {
-    this.setState({ openDialog: false, showSnackbar: true, cancelled: true });
-  };
   render() {
-    const { classes, data } = this.props;
+    const { classes } = this.props;
     const dashboardContent =
-      data.length > 0 ? (
+      this.state.data.length > 0 ? (
         <div>
           <Table className={classes.table}>
             <TableHead>
@@ -70,7 +61,7 @@ class Dashboard extends React.Component {
               </TableRow>
             </TableHead>
             <TableBody>
-              {data.map((row, id) => (
+              {this.state.data.map((row, id) => (
                 <TableRow key={id} className={classes.row}>
                   <CustomTableCell component="th" scope="row">
                     {row.eventName}

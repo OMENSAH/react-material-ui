@@ -1,5 +1,5 @@
 import React from "react";
-import {withStyles} from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/core/styles";
 import classnames from "classnames";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
@@ -15,7 +15,7 @@ import Grid from "@material-ui/core/Grid";
 const styles = theme => ({
   root: {
     flexGrow: 1,
-    marginTop: 30,
+    marginTop: 30
   },
   card: {
     maxWidth: 400
@@ -44,13 +44,13 @@ class AccountDetails extends React.Component {
     this.state = {
       expanded: false,
       profile: {},
-      imagePlaceHolder:"./placeholder.png"
+      imagePlaceHolder: "./placeholder.png"
     };
   }
 
   componentDidMount() {
-    let profile = this.props.auth.getProfile()
-    this.setState({ profile, imagePlaceHolder: profile.picture })
+    let profile = this.props.auth.getProfile();
+    this.setState({ profile, imagePlaceHolder: profile.picture });
   }
 
   handleExpandClick = () => {

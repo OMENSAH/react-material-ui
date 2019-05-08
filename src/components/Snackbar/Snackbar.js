@@ -34,7 +34,7 @@ const styles = theme => ({
 });
 
 const MySnackbarContent = props => {
-  const { classes, className, message, onClose, variant, ...other } = props;
+  const { classes, className, variant, message } = props;
   const Icon = variantIcon[variant];
 
   return (
@@ -53,12 +53,10 @@ const MySnackbarContent = props => {
           aria-label="Close"
           color="inherit"
           className={classes.close}
-          onClick={onClose}
         >
           <CloseIcon className={classes.icon} />
         </IconButton>
       ]}
-      {...other}
     />
   );
 };

@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
@@ -49,7 +48,7 @@ function getStepContent(step) {
   }
 }
 
-class VerticalLinearStepper extends React.Component {
+class About extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -130,8 +129,4 @@ class VerticalLinearStepper extends React.Component {
   }
 }
 
-VerticalLinearStepper.propTypes = {
-  classes: PropTypes.object
-};
-
-export default withStyles(styles)(VerticalLinearStepper);
+export default withStyles(styles)(About);

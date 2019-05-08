@@ -1,58 +1,55 @@
 import React, { Component } from "react";
 import "./App.css";
-import { Route, Redirect, withRouter } from "react-router-dom";
 
 import MenuAppBar from "./components/Header/Header";
-import Auth from "./service/Auth";
-
 import HomePage from "./pages/HomePage/HomePage";
-import Callback from "./components/Callback";
-import Dashboard from "./pages/Dashboard/Dashboard";
-import AccountDetails from "./pages/Account/Account";
 import About from "./pages/About/About";
+import AccountDetails from "./pages/Account/Account";
+
+import { Route, Redirect, withRouter } from "react-router-dom";
+
+import Dashboard from "./pages/Dashboard/Dashboard";
+
+import Auth from "./service/Auth";
+import Callback from "./components/Callback";
 
 const divStyle = {
-  margin: "65px"
+  marginTop: "65px"
 };
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [],
-      checkingSession: true
+      data: []
     };
     this.auth = new Auth(this.props.history);
   }
 
   async componentDidMount() {
-    if (this.props.location.pathname === "/callback") {
-      this.setState({ checkingSession: false });
-      return;
-    }
+    if (this.props.location.pathname === "/callback") return;
     try {
       await this.auth.silentAuth();
       this.forceUpdate();
     } catch (err) {
-      console.log(err.error);
+      if (err.error !== "login_required") console.log(err.error);
     }
-    this.setState({ checkingSession: false });
   }
 
   createEvent = (event, cb) => {
     let newDataSet = [...this.state.data, event];
     this.setState({ data: newDataSet }, () => cb());
   };
-
   render() {
     return (
       <div style={divStyle}>
-        <MenuAppBar auth={this.auth} createEvent={this.createEvent} />
+        <MenuAppBar createEvent={this.createEvent} auth={this.auth} />
         <Route path="/" exact component={() => <HomePage auth={this.auth} />} />
         <Route
           path="/callback"
-          component={props => <Callback auth={this.auth} {...props} />}
+          component={() => <Callback auth={this.auth} />}
         />
+        <Route path="/about" component={About} />
         <Route
           path="/dashboard"
           component={() =>
@@ -63,7 +60,6 @@ class App extends Component {
             )
           }
         />
-        <Route path="/about" component={About} />
         <Route
           path="/account"
           component={() =>

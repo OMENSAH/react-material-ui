@@ -1,45 +1,33 @@
-import { NavLink, withRouter } from "react-router-dom";
 import React from "react";
-import classNames from "classnames";
-import { withStyles } from "@material-ui/core/styles";
-import Drawer from "@material-ui/core/Drawer";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import List from "@material-ui/core/List";
 import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
+
+import Drawer from "@material-ui/core/Drawer";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Add from "@material-ui/icons/Add";
 import Info from "@material-ui/icons/Info";
+import Divider from "@material-ui/core/Divider";
+import List from "@material-ui/core/List";
+
+import classNames from "classnames";
+import { withStyles } from "@material-ui/core/styles";
+
+import { NavLink } from "react-router-dom";
+
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
-import Snackbar from "@material-ui/core/Snackbar";
-import MySnackbarContentWrapper from "../Snackbar/Snackbar";
 
-import AddEvent from "./../AddEvent/AddEvent";
+import AddEvent from "../AddEvent/AddEvent";
 
 const drawerWidth = 240;
-
 const styles = theme => ({
-  root: {
-    display: "flex",
-    flexGrow: 1
-  },
-  grow: {
-    flexGrow: 1,
-    marginLeft: 15
-  },
-  menuButton: {
-    marginLeft: 20,
-    marginRight: 20
-  },
   appBar: {
     transition: theme.transitions.create(["margin", "width"], {
       easing: theme.transitions.easing.sharp,
@@ -54,6 +42,10 @@ const styles = theme => ({
       duration: theme.transitions.duration.enteringScreen
     })
   },
+  menuButton: {
+    marginLeft: 20,
+    marginRight: 20
+  },
   drawer: {
     width: drawerWidth,
     flexShrink: 0
@@ -67,6 +59,14 @@ const styles = theme => ({
     padding: "0 8px",
     ...theme.mixins.toolbar,
     justifyContent: "flex-end"
+  },
+  root: {
+    display: "flex",
+    flexGrow: 1
+  },
+  grow: {
+    flexGrow: 1,
+    marginLeft: 15
   }
 });
 
@@ -76,35 +76,9 @@ class MenuAppBar extends React.Component {
     this.state = {
       openDrawer: false,
       anchorEl: null,
-      openDialog: false,
-      showSnackbar: false,
-      cancelled: false
+      openDialog: false
     };
   }
-
-  handleClickOpenDialog = () => {
-    this.setState({ openDialog: true });
-  };
-
-  handleSendMessage = () => {
-    this.setState({ openDialog: false, showSnackbar: true, cancelled: false });
-  };
-
-  handleCancelMesage = () => {
-    this.setState({ openDialog: false, showSnackbar: true, cancelled: true });
-  };
-
-  handleCloseSnackbar = () => {
-    this.setState({ showSnackbar: false });
-  };
-
-  handleMenu = event => {
-    this.setState({ anchorEl: event.currentTarget });
-  };
-
-  handleClose = () => {
-    this.setState({ anchorEl: null });
-  };
 
   handleDrawerOpen = () => {
     this.setState({ openDrawer: true });
@@ -114,31 +88,45 @@ class MenuAppBar extends React.Component {
     this.setState({ openDrawer: false });
   };
 
+  handleMenuOpen = event => {
+    this.setState({ anchorEl: event.currentTarget });
+  };
+
+  handleMenuClose = () => {
+    this.setState({ anchorEl: null });
+  };
+
+  handleClickOpenDialog = () => {
+    this.setState({ openDialog: true });
+  };
+
+  handleCloseDialog = () => {
+    this.setState({ openDialog: false });
+  };
+
   render() {
-    const { classes, theme, auth, createEvent } = this.props;
-    const { openDrawer, anchorEl } = this.state;
-    const openScreen = Boolean(anchorEl);
+    const { classes } = this.props;
+    const showPopOver = Boolean(this.state.anchorEl);
+
     return (
       <div className={classes.root}>
         <AppBar
           position="fixed"
           className={classNames(classes.appBar, {
-            [classes.appBarShift]: openDrawer
+            [classes.appBarShift]: this.state.openDrawer
           })}
         >
-          <Toolbar disableGutters={!openDrawer}>
+          <Toolbar>
             <IconButton
               color="inherit"
               aria-label="Open drawer"
               onClick={this.handleDrawerOpen}
-              className={classNames(
-                classes.menuButton,
-                openDrawer && classes.hide
-              )}
+              className={classNames(classes.menuButton, this.state.openDrawer)}
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="h6" color="inherit">
+
+            <Typography variant="title" color="inherit">
               <NavLink
                 to="/"
                 style={{ textDecoration: "none", color: "white" }}
@@ -146,38 +134,28 @@ class MenuAppBar extends React.Component {
                 Home
               </NavLink>
             </Typography>
-            {auth.isAuthenticated() && (
-              <Typography variant="h6" color="inherit" className={classes.grow}>
-                <NavLink
-                  to="/dashboard"
-                  style={{ textDecoration: "none", color: "white" }}
-                >
-                  Dashboard
-                </NavLink>
-              </Typography>
-            )}
-            {auth.isAuthenticated() && (
+
+            <Typography variant="h6" color="inherit" className={classes.grow}>
+              <NavLink
+                to="/dashboard"
+                style={{ textDecoration: "none", color: "white" }}
+              >
+                Dashboard
+              </NavLink>
+            </Typography>
+            {this.props.auth.isAuthenticated() ? (
               <div>
-                <IconButton
-                  aria-owns={openDrawer ? "menu-appbar" : undefined}
-                  onClick={this.handleMenu}
-                  color="inherit"
-                >
+                <IconButton onClick={this.handleMenuOpen} color="inherit">
                   <AccountCircle />
                 </IconButton>
                 <Menu
-                  id="menu-appbar"
-                  anchorEl={anchorEl}
                   anchorOrigin={{
                     vertical: "top",
                     horizontal: "right"
                   }}
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "right"
-                  }}
-                  open={openScreen}
-                  onClose={this.handleClose}
+                  anchorEl={this.state.anchorEl}
+                  open={showPopOver}
+                  onClose={this.handleMenuClose}
                 >
                   <MenuItem>
                     <NavLink
@@ -187,101 +165,58 @@ class MenuAppBar extends React.Component {
                       My Account
                     </NavLink>
                   </MenuItem>
-                  <MenuItem onClick={auth.signOut}>Logout</MenuItem>
+                  <MenuItem onClick={this.props.auth.signOut}>Logout</MenuItem>
                 </Menu>
               </div>
-            )}
+            ) : null}
           </Toolbar>
         </AppBar>
         <Drawer
-          className={classes.drawer}
           variant="persistent"
           anchor="left"
-          open={openDrawer}
+          open={this.state.openDrawer}
           classes={{
             paper: classes.drawerPaper
           }}
+          className={classes.drawer}
         >
           <div className={classes.drawerHeader}>
             <IconButton onClick={this.handleDrawerClose}>
-              {theme.direction === "ltr" ? (
-                <ChevronLeftIcon />
-              ) : (
-                <ChevronRightIcon />
-              )}
+              <ChevronLeftIcon />
             </IconButton>
           </div>
           <Divider />
           <List>
-            <NavLink to="/about" style={{ textDecoration: "none" }}>
-              <ListItem button onClick={this.handleDrawerClose}>
-                <ListItemIcon className={classes.icon}>
+            <NavLink
+              to="/about"
+              style={{ textDecoration: "none" }}
+              onClick={this.handleDrawerClose}
+            >
+              <ListItem button>
+                <ListItemIcon>
                   <Info />
                 </ListItemIcon>
-                <ListItemText
-                  classes={{ primary: classes.primary }}
-                  inset
-                  primary="About"
-                />
+                <ListItemText primary="About" />
               </ListItem>
             </NavLink>
-            {auth.isAuthenticated() && (
+
+            {this.props.auth.isAuthenticated() ? (
               <ListItem button onClick={this.handleClickOpenDialog}>
-                <ListItemIcon className={classes.icon}>
+                <ListItemIcon>
                   <Add />
                 </ListItemIcon>
-                <ListItemText
-                  classes={{ primary: classes.primary }}
-                  inset
-                  primary="Add Event"
-                />
+                <ListItemText primary="Add Event" />
               </ListItem>
-            )}
+            ) : null}
           </List>
         </Drawer>
         <AddEvent
-          createEvent={createEvent}
+          createEvent={this.props.createEvent}
           openDialog={this.state.openDialog}
           onCloseDialog={this.handleCloseDialog}
-          handleCancelMesage={this.handleSendMessage}
-          handleSendMessage={this.handleCancelMesage}
         />
-        {this.state.cancelled ? (
-          <Snackbar
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "left"
-            }}
-            open={this.state.showSnackbar}
-            autoHideDuration={6000}
-            onClose={this.handleCloseSnackbar}
-          >
-            <MySnackbarContentWrapper
-              onClose={this.handleCloseSnackbar}
-              variant="success"
-              message="Event has been successfully recorded"
-            />
-          </Snackbar>
-        ) : (
-          <Snackbar
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "left"
-            }}
-            open={this.state.showSnackbar}
-            autoHideDuration={6000}
-            onClose={this.handleCloseSnackbar}
-          >
-            <MySnackbarContentWrapper
-              onClose={this.handleCloseSnackbar}
-              variant="error"
-              message="Adding event got cancelled "
-            />
-          </Snackbar>
-        )}
       </div>
     );
   }
 }
-
-export default withStyles(styles, { withTheme: true })(withRouter(MenuAppBar));
+export default withStyles(styles)(MenuAppBar);

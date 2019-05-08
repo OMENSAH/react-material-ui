@@ -7,7 +7,7 @@
   padding-left: 1rem;
   padding-right: 1rem;
   margin: auto;
-  justify-content:center;
+  justify-content: center;
   text-align: center;
 }
 
@@ -20,7 +20,6 @@
   background: #225470;
   opacity: 0.85;
 }
-
 
 .content {
   z-index: 3;
@@ -36,6 +35,3 @@
   display: block;
   padding-bottom: 2rem;
 }
-
-
-
