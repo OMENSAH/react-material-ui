@@ -33,11 +33,11 @@ function getStepContent(step) {
   switch (step) {
     case 0:
       return `Success Scheme is the world's largest event management technology platform,
-       making sure millions of events happening accross the globe are well managed. 
+       making sure millions of events happening across the globe are well managed. 
        We give event organizers the power to when it comes to event management`;
     case 1:
       return `At Success Scheme, we give power to event organizers when managing their events in just one place. 
-      Easier to sync across multipe devices and discovered by million of people on all social media platforms`;
+      Easier to sync across multiple devices and discovered by million of people on all social media platforms`;
     case 2:
       return `Try out different ad text to see what brings in the most customers,
               and learn how to enhance your ads using features like ad extensions.

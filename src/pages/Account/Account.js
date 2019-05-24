@@ -38,7 +38,7 @@ const styles = theme => ({
     transform: "rotate(180deg)"
   }
 });
-class AccountDetails extends React.Component {
+class Account extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -101,4 +101,4 @@ class AccountDetails extends React.Component {
   }
 }
 
-export default withStyles(styles)(AccountDetails);
+export default withStyles(styles)(Account);

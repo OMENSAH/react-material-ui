@@ -4,7 +4,7 @@ import "./App.css";
 import NavBar from "./components/NavBar/NavBar";
 import HomePage from "./pages/HomePage/HomePage";
 import About from "./pages/About/About";
-import AccountDetails from "./pages/Account/Account";
+import Account from "./pages/Account/Account";
 
 import { Route, Redirect, withRouter } from "react-router-dom";
 
@@ -64,7 +64,7 @@ class App extends Component {
           path="/account"
           component={() =>
             this.auth.isAuthenticated() ? (
-              <AccountDetails auth={this.auth} />
+              <Account auth={this.auth} />
             ) : (
               <Redirect to="/" />
             )
