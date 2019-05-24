@@ -70,7 +70,7 @@ const styles = theme => ({
   }
 });
 
-class MenuAppBar extends React.Component {
+class NavBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -219,4 +219,4 @@ class MenuAppBar extends React.Component {
     );
   }
 }
-export default withStyles(styles)(MenuAppBar);
+export default withStyles(styles)(NavBar);

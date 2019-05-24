@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
 
-import MenuAppBar from "./components/Header/Header";
+import NavBar from "./components/NavBar/NavBar";
 import HomePage from "./pages/HomePage/HomePage";
 import About from "./pages/About/About";
 import AccountDetails from "./pages/Account/Account";
@@ -43,7 +43,7 @@ class App extends Component {
   render() {
     return (
       <div style={divStyle}>
-        <MenuAppBar createEvent={this.createEvent} auth={this.auth} />
+        <NavBar createEvent={this.createEvent} auth={this.auth} />
         <Route path="/" exact component={() => <HomePage auth={this.auth} />} />
         <Route
           path="/callback"
