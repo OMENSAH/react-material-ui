@@ -10,7 +10,7 @@ import DateFnsUtils from "@date-io/date-fns";
 import { MuiPickersUtilsProvider, DatePicker } from "material-ui-pickers";
 import "date-fns";
 
-import MySnackbarContentWrapper from "../Snackbar/Snackbar";
+import MySnackbarContent from "../MySnackbarContent/MySnackbarContent";
 import { Snackbar } from "@material-ui/core";
 
 const date = new Date().toDateString();
@@ -23,7 +23,7 @@ class AddEvent extends React.Component {
       totalParticipants: "",
       selectedDate: date,
       showSnackbar: false,
-      isCancelled: false
+      isCanceled: false
     };
   }
 
@@ -38,7 +38,7 @@ class AddEvent extends React.Component {
 
   handleDialogCancel = () => {
     this.props.onCloseDialog();
-    this.setState({ isCancelled: true, showSnackbar: true });
+    this.setState({ isCanceled: true, showSnackbar: true });
   };
 
   handleCloseSnackbar = () => {
@@ -120,7 +120,7 @@ class AddEvent extends React.Component {
             </Button>
           </DialogActions>
         </Dialog>
-        {this.state.isCancelled ? (
+        {this.state.isCanceled ? (
           <Snackbar
             anchorOrigin={{
               vertical: "bottom",
@@ -130,7 +130,7 @@ class AddEvent extends React.Component {
             autoHideDuration={6000}
             onClose={this.handleCloseSnackbar}
           >
-            <MySnackbarContentWrapper
+            <MySnackbarContent
               variant="error"
               message="Form Got Cancelled"
             />
@@ -145,7 +145,7 @@ class AddEvent extends React.Component {
             autoHideDuration={6000}
             onClose={this.handleCloseSnackbar}
           >
-            <MySnackbarContentWrapper
+            <MySnackbarContent
               variant="success"
               message="Data Successfully Saved"
             />
