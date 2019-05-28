@@ -116,7 +116,7 @@ class AddEvent extends React.Component {
               Cancel
             </Button>
             <Button color="primary" onClick={this.saveData}>
-              Send
+              SAVE
             </Button>
           </DialogActions>
         </Dialog>
